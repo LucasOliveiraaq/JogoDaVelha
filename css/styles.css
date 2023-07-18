@@ -106,9 +106,9 @@ h1 {
 
 /* Esconder */
 
-/*.hide {
+.hide {
     display: none !important;
-}*/
+}
 
 /* Placar */
 
@@ -154,7 +154,6 @@ h1 {
     background-color: #000;
     color: #fff;
     padding: 20px;
-    display: none;
 }
 
 #message.show {
