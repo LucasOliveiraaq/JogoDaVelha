@@ -9,6 +9,7 @@ let secondPlayer;
 //Contador jogadores
 let player1 = 0;
 let player2 = 0;
+let counter = 0; // Variável global para acompanhar o número total de jogadas feitas
   
 //Evento de click aos boxes
 for (let i = 0; i < boxes.length; i++){
@@ -20,6 +21,11 @@ for (let i = 0; i < boxes.length; i++){
             this.appendChild(cloneEl);
             if(player1 == player2){
                 player1++;
+                if(secondPlayer == 'ia-player'){
+                    console.log("ia-player");
+                    computerPlayer();
+                    player2++;
+                }
             } else{
                 player2++;
             }
@@ -40,6 +46,20 @@ function checkEl(player1, player2){
     }
     return el;
 }
+
+//Para saber se é 2 players ou IA
+for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", function() {
+      secondPlayer = this.getAttribute("id");
+      for (let j = 0; j < buttons.length; j++) {
+        buttons[j].style.display = "none";
+      }
+      setTimeout(function() {
+        let container = document.querySelector("#container");
+        container.classList.remove("hide");
+      }, 500);
+    });
+  }
 
 function checkWinCondition(){
     let b1 = document.getElementById("block-1");
@@ -150,7 +170,7 @@ function checkWinCondition(){
 
         let b3Child = b3.childNodes[0].className;
         let b5Child = b5.childNodes[0].className;
-        let b7Child = b9.childNodes[0].className;
+        let b7Child = b7.childNodes[0].className;
 
         if(b3Child == 'x' && b5Child == 'x' && b7Child == 'x'){
             declareWinner('x');
@@ -200,5 +220,30 @@ function checkWinCondition(){
         for (let i = 0; i < boxesToRemove.length; i++) {
             boxesToRemove[i].parentNode.removeChild(boxesToRemove[i]);
         }
+    }
+}
+
+function computerPlayer() {
+    let cloneO = o.cloneNode(true);
+    console.log(cloneO);
+    filled = 0; 
+    counter = 0;
+
+    for (let i = 0; i < boxes.length; i++) {
+        let randomNumber = Math.floor(Math.random() * 5);
+        if(boxes[i].childNodes[0] == undefined){
+            if(randomNumber <= 1){
+                boxes[i].appendChild(cloneO);
+                counter++;
+                break;
+            }
+        } else {
+            filled ++;
+        }
+    }
+
+    // Se ainda não fez uma jogada e há caixas vazias.
+    if (counter === 0 && filled < 9) {
+        computerPlayer();
     }
 }
